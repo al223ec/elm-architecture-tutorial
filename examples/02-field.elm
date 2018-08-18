@@ -1,18 +1,11 @@
-import Html exposing (Html, div, input, text)
+import Html exposing (Html, Attribute, div, input, text)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput)
-import String
 
 
 
 main =
-  Html.beginnerProgram
-    { model = model
-    , view = view
-    , update = update
-    }
-
-
+  Html.beginnerProgram { model = model, view = view, update = update }
 
 -- MODEL
 
@@ -24,9 +17,7 @@ type alias Model =
 
 model : Model
 model =
-  Model ""
-
-
+  { content = "" }
 
 -- UPDATE
 
@@ -51,3 +42,4 @@ view model =
     [ input [ placeholder "Text to reverse", onInput Change ] []
     , div [] [ text (String.reverse model.content) ]
     ]
+

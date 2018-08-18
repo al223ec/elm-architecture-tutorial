@@ -1,55 +1,46 @@
+
 import Html exposing (Html, button, div, text)
 import Html.Events exposing (onClick)
 
 
-
 main =
-  Html.beginnerProgram
-    { model = model
-    , view = view
-    , update = update
-    }
+  Html.beginnerProgram { model = counter, view = view, update = update }
 
-
-
--- MODEL
-
+-- Model
 
 type alias Model = Int
 
-
-model : Model
-model =
+counter : Model
+counter =
   0
-
-
 
 -- UPDATE
 
 
-type Msg
-  = Increment
-  | Decrement
-
+type Msg = Increment | Decrement | Reset
 
 update : Msg -> Model -> Model
-update msg model =
+update msg counter =
   case msg of
     Increment ->
-      model + 1
+      counter + 1
 
     Decrement ->
-      model - 1
+      counter - 1
 
-
+    Reset ->
+      counter - counter
 
 -- VIEW
 
-
 view : Model -> Html Msg
-view model =
+view counter =
   div []
     [ button [ onClick Decrement ] [ text "-" ]
-    , div [] [ text (toString model) ]
-    , button [ onClick Increment ] [ text "+" ]
+    , div [] [ text (toString counter) ]
+    , button [ onClick Increment ] [ text "+"]
+    , div [] [
+        button [ onClick Reset ] [ text "reset"]
+      ]
     ]
+

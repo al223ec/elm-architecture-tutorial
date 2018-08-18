@@ -1,41 +1,33 @@
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (onInput)
-
+import Html.Events exposing (onInput, onClick)
 
 main =
-  Html.beginnerProgram
-    { model = model
-    , view = view
-    , update = update
-    }
-
+  Html.beginnerProgram { model = model, view = view, update = update }
 
 
 -- MODEL
-
 
 type alias Model =
   { name : String
   , password : String
   , passwordAgain : String
+  , isValid : Bool
   }
-
 
 model : Model
 model =
-  Model "" "" ""
-
+  Model "" "" "" False
 
 
 -- UPDATE
 
 
 type Msg
-    = Name String
-    | Password String
-    | PasswordAgain String
-
+  = Name String
+  | Password String
+  | PasswordAgain String
+  | Submit Model
 
 update : Msg -> Model -> Model
 update msg model =
@@ -49,6 +41,8 @@ update msg model =
     PasswordAgain password ->
       { model | passwordAgain = password }
 
+    Submit submitModel ->
+      { model | isValid = validatePassword submitModel.password submitModel.passwordAgain }
 
 
 -- VIEW
@@ -60,9 +54,9 @@ view model =
     [ input [ type_ "text", placeholder "Name", onInput Name ] []
     , input [ type_ "password", placeholder "Password", onInput Password ] []
     , input [ type_ "password", placeholder "Re-enter Password", onInput PasswordAgain ] []
+    , button [ onClick(Submit model) ] [ text "reset"]
     , viewValidation model
     ]
-
 
 viewValidation : Model -> Html msg
 viewValidation model =
